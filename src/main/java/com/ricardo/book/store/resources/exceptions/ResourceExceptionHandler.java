@@ -1,6 +1,7 @@
 package com.ricardo.book.store.resources.exceptions;
 
 
+import com.ricardo.book.store.service.exceptions.DataIntegrityViolationException;
 import com.ricardo.book.store.service.exceptions.ObjectNotFoundException;
 import org.hibernate.ObjectDeletedException;
 import org.springframework.http.HttpStatus;
@@ -18,5 +19,12 @@ public class ResourceExceptionHandler {
         StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> dataIntegrityViolationException (DataIntegrityViolationException e, ServletRequest request){
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
 
 }
