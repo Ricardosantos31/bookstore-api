@@ -1,6 +1,7 @@
 package com.ricardo.book.store.service;
 
 
+import com.ricardo.book.store.domain.Categoria;
 import com.ricardo.book.store.domain.Livro;
 import com.ricardo.book.store.repositories.LivroRepository;
 import com.ricardo.book.store.service.exceptions.ObjectNotFoundException;
@@ -33,13 +34,21 @@ public class LivroService {
 
     public Livro update(Integer id, Livro obj) {
         Livro newObj = findById(id);
-        updateData(newObj,obj);
+        updateData(newObj, obj);
         return repository.save(newObj);
     }
 
     private void updateData(Livro newObj, Livro obj) {
-         newObj.setTitulo(obj.getTitulo());
-         newObj.setNome_autor(obj.getNome_autor());
-         newObj.setTexto(obj.getTexto());
+        newObj.setTitulo(obj.getTitulo());
+        newObj.setNome_autor(obj.getNome_autor());
+        newObj.setTexto(obj.getTexto());
+    }
+
+    public Livro create(Integer id_cat, Livro obj) {
+        obj.setId(null);
+        Categoria cat = categoriaService.findById(id_cat);
+        obj.setCategoria(cat);
+        return repository.save(obj);
+
     }
 }
